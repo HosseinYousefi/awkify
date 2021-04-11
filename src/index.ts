@@ -32,6 +32,10 @@ bot.start((ctx) => {
   return ctx.replyWithMarkdown(`Use the command /awk to add a new awk script!`);
 });
 
+function replaceAll(string, search, replace) {
+  return string.split(search).join(replace);
+}
+
 function awk(
   script: string,
   input: string,
@@ -41,7 +45,7 @@ function awk(
   const scriptPath = tempWrite.sync(script);
   const inputPath = tempWrite.sync(input);
   return exec(`gawk --sandbox -f ${scriptPath} ${inputPath}`, (err, stdout, stderr) =>
-    callback(err, stdout, stderr.replace(`gawk: ${scriptPath}:`, ""))
+    callback(err, stdout, replaceAll(stderr, `gawk: ${scriptPath}:`, ""))
   );
 }
 
