@@ -27,7 +27,7 @@ const localSession = new LocalSession();
 bot.use(localSession.middleware());
 
 bot.start((ctx) => {
-  ctx.session = { scripts: [] };
+  ctx.session ??= { scripts: [] };
   return ctx.replyWithMarkdown(`Use the command /awk to add a new awk script!`);
 });
 
@@ -66,6 +66,7 @@ bot.command("awk", async (ctx) => {
 });
 
 bot.command("all", async (ctx) => {
+  ctx.session ??= { scripts: [] };
   if (!ctx.session.scripts.length) {
     return ctx.replyWithMarkdown(`You currently don't have any scripts.`);
   }
@@ -93,6 +94,10 @@ bot.command("clear", async (ctx) => {
 });
 
 bot.on("text", async (ctx) => {
+  ctx.session ??= { scripts: [] };
+  if (ctx.session.scripts.length == 0) {
+    return;
+  }
   var awks = [];
   for (const script of ctx.session.scripts) {
     awks.push(
