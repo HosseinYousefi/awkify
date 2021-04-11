@@ -28,6 +28,7 @@ bot.use(localSession.middleware());
 
 bot.start((ctx) => {
   ctx.session ??= { scripts: [] };
+  ctx.session.scripts ??= [];
   return ctx.replyWithMarkdown(`Use the command /awk to add a new awk script!`);
 });
 
@@ -90,11 +91,13 @@ bot.command("del", async (ctx) => {
 
 bot.command("clear", async (ctx) => {
   ctx.session = { scripts: [] };
+  ctx.session.scripts ??= [];
   return ctx.replyWithMarkdown(`All scripts have been cleared.`);
 });
 
 bot.on("text", async (ctx) => {
   ctx.session ??= { scripts: [] };
+  ctx.session.scripts ??= [];
   if (ctx.session.scripts.length == 0) {
     return;
   }
