@@ -32,7 +32,6 @@ bot.start((ctx) => {
   return ctx.replyWithMarkdown(`Use the command /awk to add a new awk script!`);
 });
 
-// TODO: change awk to gawk with sandbox
 function awk(
   script: string,
   input: string,
@@ -42,7 +41,7 @@ function awk(
   const scriptPath = tempWrite.sync(script);
   const inputPath = tempWrite.sync(input);
   return exec(`gawk --sandbox -f ${scriptPath} ${inputPath}`, (err, stdout, stderr) =>
-    callback(err, stdout, stderr.replace(`awk: ${scriptPath}:`, ""))
+    callback(err, stdout, stderr.replace(`gawk: ${scriptPath}:`, ""))
   );
 }
 
