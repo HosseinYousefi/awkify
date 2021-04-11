@@ -68,6 +68,7 @@ bot.command("awk", async (ctx) => {
 
 bot.command("all", async (ctx) => {
   ctx.session ??= { scripts: [] };
+  ctx.session.scripts ??= [];
   if (!ctx.session.scripts.length) {
     return ctx.replyWithMarkdown(`You currently don't have any scripts.`);
   }
